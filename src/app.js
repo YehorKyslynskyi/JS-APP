@@ -1,0 +1,154 @@
+// Your web app's Firebase configuration
+const firebaseConfig = {
+  apiKey: "AIzaSyBqPt7q0D6GHR8LleR151P4nkScUKK0H3c",
+  authDomain: "app-js-by-yk.firebaseapp.com",
+  databaseURL:
+    "https://app-js-by-yk-default-rtdb.europe-west1.firebasedatabase.app",
+  projectId: "app-js-by-yk",
+  storageBucket: "app-js-by-yk.appspot.com",
+  messagingSenderId: "359034077315",
+  appId: "1:359034077315:web:e6ad2d13ecd8fdc5769bb6",
+};
+// Initialize Firebase
+firebase.initializeApp(firebaseConfig);
+
+import { Suggestion } from "./suggestion";
+import { hideModal, isValidInputValue, showModal } from "./utils";
+import "./styles.css";
+
+const auth = firebase.auth();
+const form = document.getElementById("form");
+const input = form.querySelector("#suggestion-input");
+const sendBtn = form.querySelector("#send");
+const list = document.getElementById("list");
+const cancelBtn = document.getElementById("cancel");
+const loginBtn = document.getElementById("login-btn");
+const signUpBtn = document.getElementById("signup");
+const signInBtn = document.getElementById("signin");
+const userTitle = document.getElementById("usertitle");
+
+signInBtn.onclick = signIn;
+signUpBtn.onclick = signUp;
+loginBtn.onclick = showModal;
+cancelBtn.onclick = cancel;
+form.addEventListener("submit", sendFormHandler);
+input.addEventListener("input", () => {
+  sendBtn.disabled = !isValidInputValue(input.value);
+});
+
+function sendFormHandler(event) {
+  event.preventDefault();
+
+  if (isValidInputValue(input.value)) {
+    if (!auth.currentUser) {
+      let label = document.getElementById("label-for-suggestion-input");
+      label.innerHTML = "You are not logged in!";
+      label.style.color = "red";
+      sendBtn.disabled = true;
+      setTimeout(() => {
+        label.innerHTML = "Your suggestions";
+        label.style.color = "";
+        sendBtn.disabled = false;
+      }, 2000);
+    } else {
+      const suggestion = {
+        text: input.value.trim(),
+        date: new Date().toJSON(),
+        userID: auth.currentUser.uid,
+      };
+
+      sendBtn.disabled = true;
+
+      // Async request to server to seve suggestion
+      Suggestion.create(suggestion).then(() => {
+        auth.onAuthStateChanged(function (user) {
+          user
+            .getIdToken(true)
+            .then(function (idToken) {
+              Suggestion.fetch(idToken, auth.currentUser).then((suggestion) =>
+                renderList(suggestion)
+              );
+            })
+            .catch(function (error) {
+              console.log(`error: ${error}`);
+            });
+        });
+
+        input.value = "";
+        input.className = "";
+        sendBtn.disabled = false;
+      });
+    }
+  }
+}
+function signUp(event) {
+  event.preventDefault();
+
+  const email = document.getElementById("email");
+  const password = document.getElementById("password");
+
+  auth
+    .createUserWithEmailAndPassword(email.value, password.value)
+    .then(() => {
+      console.log("Singed Up");
+      hideModal();
+    })
+    .catch((e) => alert(e.message));
+}
+
+function signIn(event) {
+  event.preventDefault();
+
+  const email = document.getElementById("email");
+  const password = document.getElementById("password");
+
+  auth
+    .signInWithEmailAndPassword(email.value, password.value)
+    .then(() => {
+      hideModal();
+    })
+    .catch((e) => alert(e.message));
+}
+
+function signOut(event) {
+  event.preventDefault();
+
+  auth.signOut();
+  list.innerHTML = "";
+  email.value = "";
+  password.value = "";
+  console.log("Signed Out from: " + email);
+}
+
+function cancel(event) {
+  event.preventDefault();
+  hideModal();
+}
+
+auth.onAuthStateChanged(function (user) {
+  if (user) {
+    user
+      .getIdToken(true)
+      .then(function (idToken) {
+        Suggestion.fetch(idToken, auth.currentUser).then((suggestion) =>
+          renderList(suggestion)
+        );
+      })
+      .catch(function (error) {
+        console.log(`error: ${error}`);
+      });
+
+    let email = user.email;
+    loginBtn.innerHTML = "Log Out";
+    loginBtn.onclick = signOut;
+    userTitle.innerHTML = `User: ${email}`;
+  } else {
+    loginBtn.innerHTML = "Log In";
+    loginBtn.onclick = showModal;
+    userTitle.innerHTML = "Unknown user";
+  }
+});
+
+function renderList(content) {
+  list.innerHTML = Suggestion.listToHTML(content);
+}

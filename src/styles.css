@@ -1,0 +1,242 @@
+/**
+ * Body CSS
+ */
+
+form html,
+body {
+  height: 100%;
+}
+
+html,
+body,
+input,
+textarea,
+button {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.004);
+}
+
+/**
+ * Header CSS
+ */
+
+header {
+  position: fixed;
+  top: 0;
+  right: 0;
+  left: 0;
+  z-index: 2;
+}
+
+header ul.mui-list--inline {
+  margin-bottom: 0;
+}
+
+header a {
+  color: white;
+}
+
+header table {
+  width: 100%;
+}
+
+label {
+  top: 0;
+  font-size: var(--font-size-small);
+  opacity: 1;
+  transform: translateY(0);
+  transition: all 0.2s ease-out;
+}
+
+input:placeholder-shown + label {
+  opacity: 0;
+  transform: translate(1px, 50%);
+}
+
+/**
+ * Content CSS
+ */
+
+#content-wrapper {
+  min-height: 100%;
+
+  /* sticky footer */
+  box-sizing: border-box;
+  margin-bottom: -100px;
+  padding-bottom: 100px;
+}
+
+/**
+ * Footer CSS
+ */
+
+footer {
+  box-sizing: border-box;
+  height: 100px;
+  background-color: #eee;
+  border-top: 1px solid #e0e0e0;
+  padding-top: 35px;
+}
+
+.myfont {
+  font-family: "MyFont";
+}
+
+.title {
+  font-size: 30px;
+}
+.suggestion {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  width: 557px;
+}
+
+.suggestion_date {
+  padding-top: 20px;
+  font-size: large;
+}
+
+.suggestion_text {
+  font-size: large;
+}
+
+#login-form-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 9999;
+  display: none;
+  width: 100%;
+  height: 100%;
+  text-align: center;
+}
+
+#login-form {
+  margin-right: 5px;
+  margin-left: auto;
+  margin-top: 75px;
+  width: 350px;
+  height: 200px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: #3d8fd1;
+}
+
+#login-form-buttons {
+  margin-top: 20px;
+  display: flex;
+  flex-direction: row;
+  width: 150px;
+  justify-content: center;
+}
+
+#login-btn,
+#signin,
+#signout,
+#signup,
+#cancel {
+  display: inline-block;
+  font-family: arial, sans-serif;
+  font-size: 11px;
+  font-weight: bold;
+  color: rgb(68, 68, 68);
+  text-decoration: none;
+  user-select: none;
+  padding: 0.2em 1.2em;
+  outline: none;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  border-radius: 2px;
+  background: rgb(245, 245, 245) linear-gradient(#f4f4f4, #f1f1f1);
+  transition: all 0.218s ease 0s;
+  margin-left: 7px;
+  margin-right: 7px;
+}
+#login-btn:hover,
+#signin:hover,
+#signout:hover,
+#signup:hover {
+  color: rgb(24, 24, 24);
+  border: 1px solid rgb(198, 198, 198);
+  background: #f7f7f7 linear-gradient(#f7f7f7, #f1f1f1);
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+}
+#login-btn:active,
+#signin:active,
+#signout:active,
+#signup:active {
+  color: rgb(51, 51, 51);
+  border: 1px solid rgb(204, 204, 204);
+  background: rgb(238, 238, 238)
+    linear-gradient(rgb(238, 238, 238), rgb(224, 224, 224));
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1) inset;
+}
+
+#cover-div {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 9000;
+  width: 100%;
+  height: 100%;
+  background-color: gray;
+  opacity: 0.3;
+}
+
+#email,
+#password {
+  outline: none;
+  border: 1px solid #cecece;
+  padding: 6px 0 4px 10px;
+  background: #f6f6f6;
+  border-radius: 8px;
+  margin-top: 20px;
+  width: 300px;
+  padding-bottom: 5px\0;
+}
+
+#list {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  width: 557px;
+}
+
+#list ol {
+  margin-left: 0;
+  list-style: none;
+  counter-reset: li;
+}
+
+#list li {
+  position: relative;
+  margin-bottom: 1.5em;
+  border: 3px solid #3d8fd1;
+  padding: 0.6em;
+  border-radius: 4px;
+  background: #fefefe;
+  color: #231f20;
+  font-family: "ListFont";
+  font-size: 17px;
+  list-style-type: none;
+}
+
+footer {
+  margin-top: 118spx;
+}
+
+@font-face {
+  font-family: "MyFont";
+  src: url("../fonts/MyFont.ttf") format("truetype");
+  font-style: normal;
+  font-weight: normal;
+}
+
+@font-face {
+  font-family: "ListFont";
+  src: url("../fonts/ListFont.ttf") format("truetype");
+  font-style: normal;
+  font-weight: 900;
+}
